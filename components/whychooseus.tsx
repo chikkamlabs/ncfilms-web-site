@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, CheckSquare } from "lucide-react";
 import { ContactModal } from "./contactCard";
 import { resolveScrollingMediaRows } from "@/lib/whychooseus";
@@ -51,6 +51,16 @@ export default function WhyChooseUs({
   services,
 }: WhyChooseUsProps) {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [activeReasonIndex, setActiveReasonIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveReasonIndex((prev) => (prev + 1) % REASONS.length);
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
+
+  const currentReason = REASONS[activeReasonIndex];
 
   const { duplicatedRow1, duplicatedRow2 } = resolveScrollingMediaRows(
     row1Images,
@@ -85,8 +95,58 @@ export default function WhyChooseUs({
           </p>
         </motion.div>
 
-        {/* Ticks & Checkbox Bullet Points */}
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        {/* Mobile: One After One with Basic Transition */}
+        <div className="mt-10 sm:hidden">
+          <div className="min-h-[132px] flex flex-col justify-between p-5 bg-soft-white border border-stone-grey/45 rounded-sm">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentReason.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-start gap-3.5"
+              >
+                <div className="w-8 h-8 rounded-sm bg-champagne-beige/15 border border-champagne-beige/40 flex items-center justify-center shrink-0 mt-0.5">
+                  <CheckSquare className="w-4 h-4 text-champagne-beige" />
+                </div>
+                <div>
+                  <h3 className="text-base font-serif font-semibold text-charcoal leading-snug">
+                    {currentReason.title}
+                  </h3>
+                  <p className="mt-1.5 text-xs text-muted-grey leading-relaxed">
+                    {currentReason.detail}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="mt-4 pt-3 border-t border-warm-grey flex items-center justify-between gap-3">
+              <span className="text-[11px] font-mono text-muted-grey tabular-nums">
+                {String(activeReasonIndex + 1).padStart(2, "0")} /{" "}
+                {String(REASONS.length).padStart(2, "0")}
+              </span>
+              <div className="flex items-center gap-1.5">
+                {REASONS.map((reason, idx) => (
+                  <button
+                    key={reason.title}
+                    type="button"
+                    aria-label={`Show point ${idx + 1}`}
+                    onClick={() => setActiveReasonIndex(idx)}
+                    className={`h-1.5 rounded-sm transition-all duration-200 cursor-pointer ${
+                      idx === activeReasonIndex
+                        ? "w-5 bg-champagne-beige"
+                        : "w-2 bg-stone-grey/50"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tablet & Desktop: Full Grid */}
+        <div className="mt-12 hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {REASONS.map((reason, index) => (
             <motion.div
               key={reason.title}

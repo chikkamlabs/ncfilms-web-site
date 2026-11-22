@@ -46,14 +46,18 @@ export default function Services({ services }: ServicesProps) {
           </div>
         </div>
 
-        {/* 3 Columns on Desktop, 1 Column on Mobile */}
+        {/* 3 Columns on Desktop, 1 Column on Mobile (3 cards + more card on mobile) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {displayServices.map((service) => (
-            <ServiceCard
+          {displayServices.map((service, index) => (
+            <div
               key={service._id}
-              service={service}
-              allServices={allServiceTitles}
-            />
+              className={index >= 3 ? "hidden lg:block h-full" : "h-full"}
+            >
+              <ServiceCard
+                service={service}
+                allServices={allServiceTitles}
+              />
+            </div>
           ))}
 
           {/* Sixth Card: Open Services */}
