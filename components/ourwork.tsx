@@ -49,7 +49,7 @@ export default function OurWork({ projects }: OurWorkProps) {
           </div>
         </motion.div>
 
-        {/* 3 Columns on Desktop, 1 Column on Mobile */}
+        {/* 3 Columns on Desktop, 1 Column on Mobile (3 cards + more card on mobile) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {displayProjects.map((project, index) => (
             <motion.div
@@ -62,7 +62,7 @@ export default function OurWork({ projects }: OurWorkProps) {
                 delay: Math.min(index * 0.08, 0.32),
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="h-full"
+              className={index >= 3 ? "hidden lg:block h-full" : "h-full"}
             >
               <ProjectCard project={project} />
             </motion.div>
