@@ -1,26 +1,21 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Soft White: Primary website background. Clean, bright and elegant. */
+  --color-soft-white: #F8F8F6;
+  /* Pure White: Cards, content surfaces and clean sections. */
+  --color-pure-white: #FFFFFF;
+  /* Warm Grey: Alternate backgrounds and subtle section separation. */
+  --color-warm-grey: #E8E7E3;
+  /* Stone Grey: Borders, dividers and muted UI elements. */
+  --color-stone-grey: #C9C6BF;
+  /* Champagne Beige: Premium accent for highlights, buttons and subtle details. */
+  --color-champagne-beige: #B9A88A;
+  /* Charcoal: Primary text, headings, icons and footer background. */
+  --color-charcoal: #292A2B;
+  /* Jet Black: Deep cinematic black for hero section canvas, edges and borders. */
+  --color-jet-black: #0B0B0B;
+  /* Muted Grey: Secondary text, descriptions and captions. */
+  --color-muted-grey: #777773;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
